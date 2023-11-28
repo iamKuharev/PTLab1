@@ -213,3 +213,5 @@ cython_debug/
 
 .idea/
 
+.idea/Lab1_AI.iml
+.idea/misc.xml
