@@ -3,6 +3,7 @@ on:
   push:
    branches:
      - main
+     - date-reader-from-yaml
 jobs:
   build:
    runs-on: ubuntu-latest
