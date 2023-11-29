@@ -4,6 +4,7 @@ on:
    branches:
      - main
      - date-reader-from-yaml
+     - specified-grade
 jobs:
   build:
    runs-on: ubuntu-latest
