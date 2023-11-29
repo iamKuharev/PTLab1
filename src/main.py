@@ -18,6 +18,7 @@ def get_path_from_arguments(args) -> str:
     args = parser.parse_args(args)
     return args.path
 
+
 def get_reader(path: str) -> DataReader:
     filename = os.path.basename(path)
     extension = os.path.splitext(filename)[-1].lower()
@@ -29,7 +30,6 @@ def get_reader(path: str) -> DataReader:
             return YamlDataReader()
         case _:
             raise ValueError("Неподдерживаемый формат")
-
 
 
 def main():
