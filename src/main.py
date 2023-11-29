@@ -1,5 +1,6 @@
 import argparse
 import sys
+import os
 
 from CalcRating import CalcRating
 from SpecifiedGrade import SpecifiedGrade
@@ -19,15 +20,22 @@ def get_path_from_arguments(args) -> str:
 
 def main():
     path = get_path_from_arguments(sys.argv[1:])
-    reader = TextDataReader()
-    students = reader.read(path)
-    print("Students: ", students)
+
+    filename = os.path.basename(path)
+    extension = os.path.splitext(filename)[-1].lower()
+
+    students = {}
+    if extension == ".txt":
+        reader = TextDataReader()
+        students = reader.read(path)
+        print("Students: ", students)
+    elif extension == ".yaml":
+        reader_yaml = YamlDataReader()
+        students = reader_yaml.read(path)
+        print("Students: ", students)
+
     rating = CalcRating(students).calc()
     print("Rating: ", rating)
-
-    reader_yaml = YamlDataReader()
-    students = reader_yaml.read(path)
-    print("Students: ", students)
 
     try:
         full_name_student = SpecifiedGrade(students).identify()
