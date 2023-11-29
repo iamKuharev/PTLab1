@@ -2,6 +2,7 @@ import argparse
 import sys
 import os
 
+from DataReader import DataReader
 from CalcRating import CalcRating
 from SpecifiedGrade import SpecifiedGrade
 from TextDataReader import TextDataReader
@@ -17,22 +18,26 @@ def get_path_from_arguments(args) -> str:
     args = parser.parse_args(args)
     return args.path
 
+def get_reader(path: str) -> DataReader:
+    filename = os.path.basename(path)
+    extension = os.path.splitext(filename)[-1].lower()
+
+    match extension:
+        case ".txt":
+            return TextDataReader()
+        case ".yaml":
+            return YamlDataReader()
+        case _:
+            raise ValueError("Неподдерживаемый формат")
+
+
 
 def main():
     path = get_path_from_arguments(sys.argv[1:])
 
-    filename = os.path.basename(path)
-    extension = os.path.splitext(filename)[-1].lower()
-
-    students = {}
-    if extension == ".txt":
-        reader = TextDataReader()
-        students = reader.read(path)
-        print("Students: ", students)
-    elif extension == ".yaml":
-        reader_yaml = YamlDataReader()
-        students = reader_yaml.read(path)
-        print("Students: ", students)
+    reader = get_reader(path)
+    students = reader.read(path)
+    print("Students: ", students)
 
     rating = CalcRating(students).calc()
     print("Rating: ", rating)
